@@ -118,7 +118,7 @@ SELECT start_station_name, end_station_name
 FROM Cyclistic.dbo.March_data;
 
  -- Results Showed that Some data was populated but some was still unclear based on their longitude and latitude. 
- -- Repopulating the remaining missing station IDs values with the most common value
+ -- Repopulating the remaining missing station ID values with the most common value
 
 SELECT start_station_name, COUNT(start_station_name) as count
 FROM Cyclistic.dbo.March_data
