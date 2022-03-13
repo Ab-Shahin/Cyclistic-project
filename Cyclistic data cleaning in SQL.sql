@@ -118,7 +118,29 @@ SELECT start_station_name, end_station_name
 FROM Cyclistic.dbo.March_data;
 
  -- Results Showed that Some data was populated but some was still unclear based on their longitude and latitude. 
- -- So I decided no to populate all the data tables
+ -- Repopulating the remaining missing station IDs values with the most common value
+
+SELECT start_station_name, COUNT(start_station_name) as count
+FROM Cyclistic.dbo.March_data
+GROUP BY start_station_name
+ORDER BY count desc
+
+
+UPDATE Cyclistic.dbo.March_data
+ SET start_station_name = ISNULL(start_station_name, 'Lake Shore Dr & Monroe St')
+
+SELECT end_station_name, COUNT(end_station_name) as count
+FROM Cyclistic.dbo.March_data
+GROUP BY end_station_name
+ORDER BY count desc
+
+UPDATE Cyclistic.dbo.March_data
+ SET end_station_name = ISNULL(end_station_name, 'Lake Shore Dr & Monroe St')
+
+SELECT end_station_name, COUNT(end_station_name) as count
+	FROM Cyclistic.dbo.March_data
+	WHERE end_station_name IS NULL
+	GROUP BY end_station_name
 
 
  /*  Adding a Ride_duration and day of week columns to the table   */
@@ -334,7 +356,7 @@ FROM Cyclistic.dbo.Dec_data
 GROUP BY member_casual;
 
 -- The date shows clear increase in rides starting in March and hitting a peak total ride count in July and August and starting to decline in october and througout the Winter months.
-
+-- A further Data visualization of these results is completed using Tableau
 
 /*  Discovering which days of the week has the highest number of rides   */
  SELECT DISTINCT Day_of_week, 
@@ -411,6 +433,7 @@ SELECT DISTINCT Day_of_week,
 
 
 -- The data shows that weekends starting Friday until Sunday has more ride counts especially during the summer months 
+-- A further Data visualization of these results is completed using Tableau
 
 /*   Identifying Casual Rides stations   */ 
 
