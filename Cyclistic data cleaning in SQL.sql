@@ -1,7 +1,13 @@
-/*
-- looking at the data
-- cealning the data 
+
+-- An analysis of a dataset provided by Divvy for the marketing team of a bike-share company (Cyclistic) 
+/*  
+dataset source
+https://divvy-tripdata.s3.amazonaws.com/index.html
 */
+
+
+-- cealning the data 
+
 
 
 SELECT * 
@@ -47,7 +53,7 @@ FROM Cyclistic.dbo.Dec_data;
 
 /* Populating Station names based on their longitude and latitude */
 
- -- Populating for the month March
+ -- Populating for the month March by firstly adding a column to the table that is a decimal copy of the start and end lng and lat columns
 
  ALTER TABLE Cyclistic.dbo.March_data  
  ADD start_lat_new decimal(15,13);
@@ -61,7 +67,7 @@ FROM Cyclistic.dbo.Dec_data;
  ALTER TABLE Cyclistic.dbo.March_data  
  ADD end_lng_new decimal(15,13);
 
-
+-- updating these columns by casting the lat and lng columns to decimals
 
  UPDATE Cyclistic.dbo.March_data
  SET start_lat_new = CAST(start_lat as decimal(15,13));
@@ -76,8 +82,10 @@ FROM Cyclistic.dbo.Dec_data;
  SET end_lng_new = CAST(end_lng as decimal(15,13));
 
 
+-- populating the null values in the start and end stations by their matching lat and lng values in other rows. (for the month March)
+-- to eventually determine which start and end statoin has the most rides in order to be targted by the marketing team
 
-
+ 
  SELECT A.start_lat_new, B.start_lat_new, A.start_lng_new, B.start_lng_new, A.start_station_name, B.start_station_name,
  ISNULL(A.start_station_name, B.start_station_name)
  FROM Cyclistic.dbo.March_data A
@@ -137,13 +145,15 @@ ORDER BY count desc
 UPDATE Cyclistic.dbo.March_data
  SET end_station_name = ISNULL(end_station_name, 'Lake Shore Dr & Monroe St')
 
-SELECT end_station_name, COUNT(end_station_name) as count
-	FROM Cyclistic.dbo.March_data
-	WHERE end_station_name IS NULL
-	GROUP BY end_station_name
 
 
- /*  Adding a Ride_duration and day of week columns to the table   */
+ /* 
+- Adding a Ride_duration and day of week columns to the table  
+- Adding a ride duration and day of week columns to the table 
+- setting ride duration by subtracting ended_at column from started_at column
+- setting the day of week by extracting the day out of started_at column  
+*/
+
 -- For January
  ALTER TABLE Cyclistic.dbo.Jan_data
  ADD  Ride_duration nvarchar(10);
