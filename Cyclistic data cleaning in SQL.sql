@@ -47,7 +47,7 @@ SELECT *
 FROM Cyclistic.dbo.Dec_data;
 
 -- I noticed that there are some missing data in the start and end stations name and Id columns. 
--- With filtering it showed No relation to rideable type membership type.
+-- With filtering, it showed no relation to rideable type or membership type.
 
 
 
@@ -315,7 +315,7 @@ UPDATE Cyclistic.dbo.March_data
 
  
 
-/* Fining out how many Casual rides to Member rides  */
+/* Fining out how many Casual rides to Member rides for all monthes */
 
 SELECT DISTINCT member_casual, COUNT(member_casual) Rides_Count
 FROM Cyclistic.dbo.Jan_data
@@ -368,7 +368,7 @@ GROUP BY member_casual;
 -- The date shows clear increase in rides starting in March and hitting a peak total ride count in July and August and starting to decline in october and througout the Winter months.
 -- A further Data visualization of these results is completed using Tableau
 
-/*  Discovering which days of the week has the highest number of rides   */
+/*  Discovering which days of the week has the highest number of rides for every month  */
  SELECT DISTINCT Day_of_week, 
 		COUNT(Day_of_week) Weekdays_Count
 		FROM Cyclistic.dbo.Jan_data
